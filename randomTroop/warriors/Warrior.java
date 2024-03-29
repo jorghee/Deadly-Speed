@@ -12,14 +12,14 @@ public class  Warrior {
   private int[] position = new int[2];
   private Image skin;
 
-  private static final Random random = new Random();
+  protected static final Random random = new Random();
   
-  protected Warrior(String name, int hp, int attack, int defense, int x, int y, int speed) {
-    this(name, hp, attack, defense, x, y);
+  protected Warrior( String name, int hp, int attack, int defense, int x, int y, int speed ) {
+    this( name, hp, attack, defense, x, y );
     this.speed = speed;
   }
 
-  protected Warrior(String name, int hp, int attack, int defense, int x, int y) {
+  protected Warrior( String name, int hp, int attack, int defense, int x, int y ) {
     this.name = name;
     this.hp = hp;
     this.attack = attack;
@@ -29,24 +29,24 @@ public class  Warrior {
   }
 
   // Setters methods
-  public void setName(String name) { this.name = name; }
+  public void setName( String name ) { this.name = name; }
 
-  public void setHp(int hp){ this.hp = hp; }
+  public void setHp( int hp ){ this.hp = hp; }
 
-  public void setAttack(int attack) { this.attack = attack; } 
+  public void setAttack( int attack ) { this.attack = attack; } 
 
-  public void setDefense(int defense) { this.defense = defense; }
+  public void setDefense( int defense ) { this.defense = defense; }
 
-  public void setSpeed(int speed) { this.speed = speed; }
+  public void setSpeed( int speed ) { this.speed = speed; }
   
-  public void setPosition(int x, int y) { position[0] = x; position[1] = y; }
+  public void setPosition( int x, int y ) { position[0] = x; position[1] = y; }
 
-  public void setSkin(Image skin) { this.skin = skin; }
+  public void setSkin( Image skin ) { this.skin = skin; }
 
   // Getters methods
-  public String getName(){ return name; }
+  public String getName() { return name; }
 
-  public int getHp(){ return hp; }
+  public int getHp() { return hp; }
 
   public int getAttack() { return attack; }
 
@@ -62,9 +62,9 @@ public class  Warrior {
    * @param x is the row number within of a abstract multidimensional array
    * @param y is the column number within of a abstract multidimensional array
    */
-  public void moveTo(int x, int y) { 
-    position[0] = x;
-    position[1] = y;
+  public void moveTo( int x, int y ) { 
+    getPosition()[0] = x;
+    getPosition()[1] = y;
   }
 
   /**
@@ -75,10 +75,10 @@ public class  Warrior {
    * @return true if the speed needed to attack is less than or equal to the current 
    * attacker's speed.
    */
-  public boolean attack(int x, int y) {
-    if(speed - calculateSpeed(x, y) >= 0) {
-      speed = speed - calculateSpeed(x, y);
-      moveTo(x, y);
+  public boolean attack( int x, int y ) {
+    if( getSpeed() - calculateSpeed( x, y ) >= 0 ) {
+      setSpeed( getSpeed() - calculateSpeed( x, y ) );
+      moveTo( x, y );
       return true;
     } else return false;
   }
@@ -88,16 +88,16 @@ public class  Warrior {
    * @param x is the row number of the position where the warrior is going to move to
    * @param y is the column number of the position where the warrior is going to move to
    */
-  public void gainSpeed(int x, int y) {
-    if(speed + calculateSpeed(x, y) <= 20)
-      speed = speed + calculateSpeed(x, y);
-    moveTo(x, y);
+  public void gainSpeed( int x, int y ) {
+    if( getSpeed() + calculateSpeed( x, y ) <= 20 )
+      setSpeed( getSpeed() + calculateSpeed( x, y ) );
+    moveTo( x, y );
   }
 
-  public boolean escape(int x, int y) {
-    if(calculateSpeed(x, y) * 2 <= getSpeed()) {
-      speed -= calculateSpeed(x, y) * 2;
-      moveTo(x, y);
+  public boolean escape( int x, int y ) {
+    if( calculateSpeed( x, y ) * 2 <= getSpeed() ) {
+      setSpeed( getSpeed() - calculateSpeed( x, y ) * 2 );
+      moveTo( x, y );
       return true;
     } else return false;
   }
@@ -109,14 +109,14 @@ public class  Warrior {
    * @param y is the column number of the position where the warrior is going to move to
    * @return the sum of the speeds at the row and column.
    */
-  private int calculateSpeed(int x, int y) {
-    x = Math.absExact(x - position[0]);
-    y = Math.absExact(y - position[1]);
+  private int calculateSpeed( int x, int y ) {
+    x = Math.absExact( x - position[0] );
+    y = Math.absExact( y - position[1] );
     return x + y;
   }
 
-  public String beAttacked(Warrior attacker) {
-    return  String.format("\nTienes %.2f de probabilidad para ganar", probabilityWinning(attacker));
+  public String beAttacked( Warrior attacker ) {
+    return  String.format( "\nTienes %.2f de probabilidad para ganar", probabilityWinning( attacker ) );
   }
 
   /**
@@ -126,16 +126,16 @@ public class  Warrior {
    * @param attacker is the attacker Warrior object.
    * @return the percentage probability that the victim wins.
    */
-  public double probabilityWinning(Warrior attacker) {
-    double victimPower = hp + attack + defense;
+  public double probabilityWinning( Warrior attacker ) {
+    double victimPower = getHp() + getAttack() + getDefense();
     double attackerPower = attacker.getHp() + attacker.getAttack() + attacker.getDefense();
-    return (victimPower * 100) / (victimPower + attackerPower);
+    return ( victimPower * 100 ) / ( victimPower + attackerPower );
   }
 
   @Override
   public String toString(){
-    return ("\nName: " + name + "\nhp: " + hp + "\nAttack: " + attack +
-        "\nDefense: " + defense + "\nSpeed: " + speed + "\nRow: " + position[0] +
-        "\nColumn: " + position[1] + "\n");
+    return ( "\nName: " + getName() + "\nhp: " + getHp() + "\nAttack: " + getAttack() +
+        "\nDefense: " + getDefense() + "\nSpeed: " + getSpeed() + "\nRow: " + getPosition()[0] +
+        "\nColumn: " + getPosition()[1] + "\n" );
   }
 }
