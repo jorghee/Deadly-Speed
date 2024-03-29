@@ -123,10 +123,10 @@ public class ConnectionDB {
    * @param key1 is the password of the player 2
    */
   public void saveGame( String winner, String key1, String key2 ) {
-    String saveMatch = "INSERT INTO Matches ( player1_id, player2_id, winner_id ) VALUES ( ?, ?, ? )";
+    String saveGame = "INSERT INTO Games ( player1_id, player2_id, winner_id ) VALUES ( ?, ?, ? )";
     String update = "UPDATE Players SET total_wins = total_wins + 1 WHERE player_id = ?";
 
-    try( PreparedStatement save = connection.prepareStatement( saveMatch );
+    try( PreparedStatement save = connection.prepareStatement( saveGame );
         PreparedStatement updateWin = connection.prepareStatement( update )) {
       save.setString( 1, key1 );
       save.setString( 2, key2 );
