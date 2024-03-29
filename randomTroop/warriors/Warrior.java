@@ -3,7 +3,7 @@ package randomTroop.warriors;
 import javafx.scene.image.Image;
 import java.util.*;
 
-public class  Warrior {
+public abstract class Warrior {
   private String name;
   private int hp;
   private int attack;
