@@ -99,7 +99,7 @@ public class ConnectionDB {
    * @param key is the password of the player
    * @return true if such player exists
    */
-  private boolean getPlayer( String name, String key ) {
+  public boolean getPlayer( String name, String key ) {
     String query = "SELECT player_id FROM Players WHERE player_id = ? AND player_name = ?";
 
     try(  PreparedStatement statement = connection.prepareStatement( query )  ) {
