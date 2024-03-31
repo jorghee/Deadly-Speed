@@ -1,0 +1,74 @@
+.root {
+  -fx-background-color: transparent;
+  -fx-background-image: url("/img/field-red.png");
+  -fx-background-size: cover;
+  -fx-spacing: 20;
+}
+  
+.overview {
+  -fx-spacing: 20;
+}
+
+.state {
+  -fx-background-color: rgba(0, 0, 0, 0.3);
+  -fx-padding: 20px;
+  -fx-spacing: 20px;
+  -fx-pref-height: 650px;
+  -fx-pref-width: 450px;
+}
+
+.state Label {
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  -fx-text-fill: white;
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
+  -fx-wrap-text: true;
+}
+
+.state ImageView {
+  -fx-max-width: 150px;
+  -fx-max-height: 150px;
+  -fx-alignment: center; /* Center the ImageView within of the VBox */
+}
+
+.state ProgressBar {
+  -fx-pref-width: 400px;
+  -fx-pref-height: 30px;
+
+  -fx-background-color: #333;
+  -fx-accent: #333; /* Progress Bar color */
+
+  -fx-border-radius: 5px;
+  -fx-text-fill: white; /* Text color within of the progress bar */
+
+  -fx-opacity: 0.8;
+}
+
+/* Progress bar indicator */
+.state ProgressBar .bar {
+  -fx-background-color: #F6B17A; /* Indicator color */
+  -fx-background-insets: 0; /* Delete the indicator fill */
+}
+
+/* Progress bar in indetermined status */
+.state ProgressBar .bar.indeterminate {
+  -fx-background-color: #333;
+}
+
+.assistance {
+  -fx-background-color: rgba(0, 0, 0, 0.3);
+  -fx-padding: 20px;
+  -fx-spacing: 20px; /* Space between the internal elements */
+  -fx-pref-height: 450px;
+  -fx-pref-width: 450px;
+}
+
+.assistance Label {
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  -fx-text-fill: white;
+  -fx-font-size: 18px;
+  -fx-font-weight: bold;
+  -fx-wrap-text: true;
+}
+
+
