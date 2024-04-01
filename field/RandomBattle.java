@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import randomTroop.*;
-import randomTroop.warriors.*;
+import randomTroop.fighter.*;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,8 +19,8 @@ import javafx.geometry.VPos;
 
 public class RandomBattle implements Battle<RandomBattle> {
   // Troops to be engaged
-  private List<Warrior> troop1;
-  private List<Warrior> troop2;
+  private List<Fighter<ImageView>> troopBlue;
+  private List<Fighter<ImageView>> troopRed;
 
   // Game root
   private HBox container = new HBox();    
@@ -79,17 +79,17 @@ public class RandomBattle implements Battle<RandomBattle> {
     return this;
   }
 
-  public RandomBattle putWarriors() {
-    troop1 = TroopBlue.createBlue();
-    troop2 = TroopRed.createRed();
+  public RandomBattle putFighters() {
+    troopBlue = TroopBlue.createBlue();
+    troopRed = TroopRed.createRed();
 
-    put(troop1);
-    put(troop2);
+    put(troopBlue);
+    put(troopRed);
 
     return this;
   }
 
-  private void put(List<Warrior> troop) {
+  private void put(List<Fighter<ImageView>> troop) {
     ImageView img = null;
 
     /**
@@ -98,8 +98,8 @@ public class RandomBattle implements Battle<RandomBattle> {
      * the get() method of the LinkedList class that at a iteration usinng traditional 
      * loop is O(N^2).
      */
-    for(Warrior warrior : troop) {
-      img = new ImageView(warrior.getSkin());
+    for(Fighter<ImageView> warrior : troop) {
+      img = warrior.getSkin();
       img.setFitWidth(50); img.setFitHeight(50);
       map.add(img, warrior.getPosition()[1], warrior.getPosition()[0]);
       GridPane.setHalignment(img, HPos.CENTER); GridPane.setValignment(img, VPos.CENTER);
@@ -107,25 +107,25 @@ public class RandomBattle implements Battle<RandomBattle> {
   }
 
   // Setters and Getters methods
-  public List<Warrior> getTroop1() { return troop1; }
+  public List<Fighter<ImageView>> getTroopBlue() { return troopBlue; }
 
-  public List<Warrior> getTroop2() { return troop2; }
+  public List<Fighter<ImageView>> getTroopRed() { return troopRed; }
 
   public HBox getContainer() { return container; }
 
   public GridPane getMap() { return map; }
 
-  public Label  getName() { return name; }
+  public Label  getNameLabel() { return name; }
 
-  public ImageView getSkin() { return skin; }
+  public ImageView getSkinView() { return skin; }
 
-  public ProgressBar getHp() { return hp; }
+  public ProgressBar getHpBar() { return hp; }
 
-  public ProgressBar getSpeed() { return speed; }
+  public ProgressBar getSpeedBar() { return speed; }
 
-  public ProgressBar getAttack() { return attack; }
+  public ProgressBar getAttackBar() { return attack; }
 
-  public ProgressBar getDefense() { return defense; }
+  public ProgressBar getDefenseBar() { return defense; }
 
   public Label getMessage() { return message; }
 }
