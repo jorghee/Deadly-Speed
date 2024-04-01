@@ -1,4 +1,4 @@
-package deadlySpeed;
+package field;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,34 +17,34 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
-public class Map {
+public class RandomBattle implements Battle {
   // Troops to be engaged
-  List<Warrior> troop1;
-  List<Warrior> troop2;
+  private List<Warrior> troop1;
+  private List<Warrior> troop2;
 
   // Game root
-  HBox container = new HBox();    
+  private HBox container = new HBox();    
 
   // Game space
-  GridPane map = new GridPane();
+  private GridPane map = new GridPane();
 
   // Game information's root
-  VBox overview = new VBox();     
+  private VBox overview = new VBox();     
 
   // Warrior state's information
   private VBox state = new VBox();
-  Label name = new Label();
-  ImageView skin = new ImageView();
-  ProgressBar hp = new ProgressBar();
-  ProgressBar speed = new ProgressBar();
-  ProgressBar attack = new ProgressBar();
-  ProgressBar defense = new ProgressBar();
+  private Label name = new Label();
+  private ImageView skin = new ImageView();
+  private ProgressBar hp = new ProgressBar();
+  private ProgressBar speed = new ProgressBar();
+  private ProgressBar attack = new ProgressBar();
+  private ProgressBar defense = new ProgressBar();
 
   // Game assistance, it shows messages
   private VBox assistance = new VBox();
-  Label message = new Label();
+  private Label message = new Label();
 
-  public Map() {
+  public RandomBattle() {
     state.getChildren().addAll(
                           name, skin,
                           new Label("Hp"), hp,
@@ -104,4 +104,27 @@ public class Map {
       GridPane.setHalignment(img, HPos.CENTER); GridPane.setValignment(img, VPos.CENTER);
     }
   }
+
+  // Setters and Getters methods
+  public List<Warrior> getTroop1() { return troop1; }
+
+  public List<Warrior> getTroop2() { return troop2; }
+
+  public HBox getContainer() { return container; }
+
+  public GridPane getMap() { return map; }
+
+  public Label  getName() { return name; }
+
+  public ImageView getSkin() { return skin; }
+
+  public ProgressBar getHp() { return hp; }
+
+  public ProgressBar getSpeed() { return speed; }
+
+  public ProgressBar getAttack() { return attack; }
+
+  public ProgressBar getDefense() { return defense; }
+
+  public Label getMessage() { return message; }
 }
