@@ -52,7 +52,7 @@ public class TroopFactory {
     return troop;
   }
 
-  public static Warrior selectWarrior(List<Warrior> troop, int x, int y) {
+  public static Warrior getWarrior(List<Warrior> troop, int x, int y) {
     for(Warrior i : troop)
       if(i.getPosition()[0] == x && i.getPosition()[1] == y)
         return i;

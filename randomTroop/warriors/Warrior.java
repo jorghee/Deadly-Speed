@@ -75,7 +75,7 @@ public abstract class Warrior {
    * @return true if the speed needed to attack is less than or equal to the current 
    * attacker's speed.
    */
-  public boolean attack( int x, int y ) {
+  public boolean attackTo( int x, int y ) {
     if( getSpeed() - calculateSpeed( x, y ) >= 0 ) {
       setSpeed( getSpeed() - calculateSpeed( x, y ) );
       moveTo( x, y );
@@ -94,7 +94,7 @@ public abstract class Warrior {
     moveTo( x, y );
   }
 
-  public boolean escape( int x, int y ) {
+  public boolean escapeTo( int x, int y ) {
     if( calculateSpeed( x, y ) * 2 <= getSpeed() ) {
       setSpeed( getSpeed() - calculateSpeed( x, y ) * 2 );
       moveTo( x, y );
@@ -115,7 +115,7 @@ public abstract class Warrior {
     return x + y;
   }
 
-  public String beAttacked( Warrior attacker ) {
+  public String beAttackedBy( Warrior attacker ) {
     return  String.format( "\nTienes %.2f de probabilidad para ganar", probabilityWinning( attacker ) );
   }
 
