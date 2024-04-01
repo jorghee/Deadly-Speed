@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
-public class RandomBattle implements Battle {
+public class RandomBattle implements Battle<RandomBattle> {
   // Troops to be engaged
   private List<Warrior> troop1;
   private List<Warrior> troop2;
@@ -61,16 +61,13 @@ public class RandomBattle implements Battle {
     overview.getStyleClass().add("overview");
 
     container.getChildren().addAll(map, overview);
-
-    createField();
-    putWarriors();
   }
 
   /**
    * The method adds a Rectangle in every cell of the GridPane to set the 
    * space of every warrior.
    */
-  private void createField() {
+  public RandomBattle createField() {
     map.setHgap(1); map.setVgap(1);
 
     Rectangle rectangle = new Rectangle(100, 100, Color.rgb(0, 0, 0, 0.5));
@@ -78,14 +75,18 @@ public class RandomBattle implements Battle {
     for (int x = 0; x < 10; x++)
       for (int y = 0; y < 10; y++)
         map.add(rectangle, y, x);
+
+    return this;
   }
 
-  private void putWarriors() {
+  public RandomBattle putWarriors() {
     troop1 = TroopBlue.createBlue();
     troop2 = TroopRed.createRed();
 
     put(troop1);
     put(troop2);
+
+    return this;
   }
 
   private void put(List<Warrior> troop) {
