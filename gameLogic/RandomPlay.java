@@ -32,14 +32,14 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
   // Field storing the view of the warrior's skins
   private List<ImageView> skins = new LinkedList<>();
 
-  // Field controling the gain speed and confrontation mode
+  // Field controling the gain speed and clash mode
   private boolean clash;
 
   // Important field of the current Warrior
   private Fighter<ImageView> selWarrior, victim, attacker;
 
   // Fields controling the possible answer of the victim warrior
-  private enum Answer {ATTACK, ESCAPE, BOTH};
+  private enum Answer {COUNTERATTACK, ESCAPE, BOTH};
   private Answer answer;
 
   public RandomPlay(String player1, String player2) {
@@ -49,7 +49,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
 
   /**
    * @param battle is the type of battle generation, in this case we have implemented a random generation.
-   * @return the graphical representation of the battle. In this case is the Scene of the javafx
+   * @return the graphical representation of the battle. In this case is the javafx Scene
    */
   public Scene game(RandomBattle battle) {
     this.battle = battle.createField().putFighters();
@@ -64,9 +64,10 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
     this.battle.getMap().setOnMouseClicked(event -> {
       /**
        * x is the row number calculated couting the number of pixels on the y-axis of the 
-       * GridPane diveded by the legth of the cells.
+       * GridPane diveded by the legth of the even cells.
        * y is the column number calculated couting the number of pixels on the x-axis of the 
-       * GridPane diveded by the legth of the cells.
+       * GridPane diveded by the legth of the even cells.
+       * In this case, each cell is square of legth 100px
        */
       int x = (int) (event.getY() / 100);  // compute row
       int y = (int) (event.getX() / 100);  // compute column
@@ -92,6 +93,9 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
    * - Make sure that there is not a warrior previously selected
    * - Check that it is a warrior y that it is from the same troop
    * - Report if the above 3 points are not verified
+   *
+   * @param x is the row number of the warrior to be selected
+   * @param y is the column number of the warrior to be selected
    */
   private void selectWarriorOf(int x, int y) {
     if (selWarrior != null)
@@ -132,6 +136,9 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
    *   attack is allowed, then switch to the victim's troop, report the attack and wait for the 
    *   victim's response.
    * - If it gain speed, perfom the movement, update the positions, and make the shift change
+   *
+   * @param x is the row number of selected warrior's target position 
+   * @param y is the column number of selected warrior's target position
    */
   private void moveSelWarriorTo(int x, int y) {
     if(selWarrior == null) {
@@ -150,7 +157,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
 
       battle.getMessage().setText(playerCurrent + ", estas atacando");
 
-      // Switch to the victim troop to initialize the victim field and report the attack.
+      // Switch to the victim's troop to initialize the victim field and report the attack.
       change(); 
       victim = TroopFactory.getWarrior(troopCurrent, x, y);
 
@@ -181,9 +188,10 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
   }
 
   /**
-   * This method was created with the objective of simulating the players' turn 
+   * This method was created with the objective of simulating the players's shift 
    * change. However, it ended up helping to facilitate the change of troops that is 
-   * very required in the confrontation mode.
+   * very required in the clash mode, such as report the attack to the victim,
+   * report the victim's response to the Attacker, and so on.
    */
   private void change() {
     if(troopCurrent == battle.getTroopBlue()) {
@@ -197,16 +205,16 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
 
   /** 
    * This method is always called upon in the victim's troop. Performs the following:
-   * - If the victim is unable to escape or cope, dies
+   * - If the victim is unable to escape or counterattack, dies
    * - If the victim and the attacker have the same probability of winning, then they both die
-   * - If the above is not met, a confrontation is created in which the victim decides to 
-   *   escape and/or confront
+   * - If the above is not met, a clash is created in which the victim decides to 
+   *   escape and/or counterattack
    */
   public void optionBeAttacked(int x, int y) {
     double win = victim.probabilityWinning(attacker);
     int speed = victim.getSpeed();
 
-    // In any case the skins are removed
+    // In any case, the representation of the skins are removed
     battle.getMap().getChildren().remove(attacker.getSkin());
     battle.getMap().getChildren().remove(victim.getSkin());
 
@@ -219,7 +227,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       return;
     }
 
-    if(win == 50.00 && troopCurrent.remove(victim)) {
+    if(win == 50.00) {
       troopCurrent.remove(victim);
 
       change();
@@ -227,20 +235,22 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       change();
 
       battle.getMessage().setText("Batalla epica, murieron con honor, mis respetos.");
+
+      setSkins();
       return;
     }
 
-    // We create a temporary HBox that simulates the confrontation
+    // We create a temporary HBox that simulates the clash
     HBox oneOnOne = new HBox();
     oneOnOne.setAlignment(Pos.CENTER);
     oneOnOne.getChildren().addAll(victim.getSkin(), attacker.getSkin());
     battle.getMap().add(oneOnOne, y, x);
 
-    // We switch to confrontation mode.
+    // We switch to clash mode.
     clash = true;
   }
  
-  // This method filters the skins and stores them in the skins field
+  // This method filters the skins of the GridPane and stores them in the skins field
   private void setSkins() {
     battle.getMap().getChildren()
                   .filtered(node -> node instanceof ImageView)
@@ -255,7 +265,21 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
     return null;
   }
 
-  // ## CONFRONTATION MODE
+  //  ## METHODS ON THE CLASH MODE ##
+
+  /**
+   * As the logic of the game is sequential, the victim must respond to the attack without the 
+   * opportunity to move another warrior, because if this were possible, the logic of the game 
+   * would be very hard to building. Therefore, this method is exceptional but expensive because it 
+   * involves doing the following:
+   * - Check that the player selected to his victim, this involves search the clash (expensive)
+   * - Set the type of victim's response
+   *
+   * @param x must be the row number of the victim warrior 
+   * @param y must be the column number of the victim warrior 
+   * # It's also valid to say that must be the position of the simulated clash or the 
+   * position of the attacker.
+   */
   private void selectVictimOf(int x, int y) {
     HBox oneOnOne = searchClash(x, y);
 
@@ -267,89 +291,119 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
     double win = victim.probabilityWinning(attacker);
     int speed = victim.getSpeed();
 
-    // Ojo que speed no puede ser menor que 2, pues no se ejecutaria este metodo
-    // Entonces, el primer if se sabe que speed es mayor igual que 2
     if(win < 50.00) {
-      // Puede solo escapar 
+      // The victim just can escape
       battle.getMessage().setText("Solo puedes escapar lo mas lejos que puedas, ten cuidado");
       answer = Answer.ESCAPE;
     } else if(speed < 2) {
-      // Puede solo atacar
-      battle.getMessage().setText("Solo puedes enfrentarlo e incluso eliminarlo, sin miedo al exito");
-      answer = Answer.ATTACK;
+      // The victim just can counterattack
+      battle.getMessage().setText("Solo puedes enfrentarlo o contratacar, sin miedo al exito");
+      answer = Answer.COUNTERATTACK;
     } else {
-      // puede atacar o escapar
+      // The victim can escape or counterattack
       battle.getMessage().setText("Puedes enfrentarlo o escapar, toma la mejor desicion de tu vida");
       answer = Answer.BOTH;
     }
   }
 
+  /**
+   * The method calls the methods that implement the victim's response action.
+   * Becasue this method is called by a event, again search the clash. Futhermore
+   * is a method expensive
+   *
+   * @param x is the row number of the victim's response target position
+   * @param y is the column number of the victim's response target position
+   */
   private void moveSelVictimTo(int x, int y) {
-    int x1 = victim.getPosition()[0];
-    int y1 = victim.getPosition()[1];
+    int currentX = victim.getPosition()[0];
+    int currentY = victim.getPosition()[1];
     HBox oneOnOne = searchClash(x, y);
 
     switch(answer) {
       case Answer.ESCAPE :
-        escapeNow(x1, y1, x, y, oneOnOne); break;
-      case Answer.ATTACK :
-        instantAttak(x1, y1, x, y, oneOnOne); break;
+        escapeNow(currentX, currentY, x, y, oneOnOne); break;
+      case Answer.COUNTERATTACK :
+        counterattack(currentX, currentY, x, y, oneOnOne); break;
+      case Answer.BOTH :
+        if(currentX != x && currentY != y) escapeNow(currentX, currentY, x, y, oneOnOne);
+        else counterattack(currentX, currentY, x, y, oneOnOne); break;
       default:
-        if(x1 != x && y1 != y)
-          escapeNow(x1, y1, x, y, oneOnOne);
-        else 
-          instantAttak(x1, y1, x, y, oneOnOne);
-        break;
+        battle.getMessage().setText(playerCurrent + ", selecciona a tu victima");
     }
   }
 
-  private void escapeNow(int x1, int y1, int x, int y, HBox oneOnOne) {
-    if(x1 == x && y1 == y) {
-      battle.getMessage().setText("Recuerda, no puede enfrentarlo, solo puedes escapar");
+  /**
+   * The method performs the following:
+   * - Check that the victim cannot counterattack the attacker
+   * - Check that the victim has sufficient speed to escape to the target position
+   * - If the victim escapes successfully, then it switch the standard mode
+   *
+   * @param currentX is the row number of the victim, attacker or clash's current position
+   * @param currentY is the column number of the victim, attacker or clash's current position 
+   * @param oneOnOne is the temporary HBox that simulates the clash
+   * Parameters x and y already are known
+   */
+  private void escapeNow(int currentX, int currentY, int x, int y, HBox oneOnOne) {
+    // Thus the action is not allowed or is performed successfully, the answer field again a null
+    answer = null;
+
+    if(currentX == x && currentY == y) {
+      battle.getMessage().setText("Recuerda, no puedes enfrentarlo, solo puedes escapar");
       return;
     }
 
     if(victim.escapeTo(x, y)) {
       battle.getMap().getChildren().remove(oneOnOne);
       battle.getMap().add(victim.getSkin(), y, x);
-      battle.getMap().add(attacker.getSkin(), y1, x1);
+      battle.getMap().add(attacker.getSkin(), currentY, currentX);
       victim = attacker = null;
-      answer = null;
       clash = false;
       change();
     } else
       battle.getMessage().setText(playerCurrent + ", no tienes suficiente velocidad para escapar ahi");
   }
 
-  private void instantAttak(int x1, int y1, int x, int y, HBox oneOnOne) {
-    if(x1 != x && y1 != y) {
+  /** 
+   * This method is funny because the attacker now becomes the victim. The method perfors the following:
+   * - Check that the victim cannot escape
+   * - Remove the temporary HBox that simulates the clash
+   * - Check if the attacker can escape o simply die
+   * - In Any case, it switch the standard mode
+   *
+   * The parameters already are known
+   */
+  private void counterattack(int currentX, int currentY, int x, int y, HBox oneOnOne) {
+    // Thus the action is not allowed or is performed successfully, the answer field again a null
+    answer = null;
+
+    if(currentX != x && currentY != y) {
       battle.getMessage().setText("Recuerda, no puedes escapar, solo enfrentarlo");
       return;
     }
 
     battle.getMap().getChildren().remove(oneOnOne);
-    // Cambiamos a la tropa del atacante que ahora se convierte en vistima
-    // OJO: Con este cambio ya estamos cambiando de turno, turno del atacador
+
     change();
     if(attacker.getSpeed() < 2) {
       troopCurrent.remove(attacker);
-      // No hacemos el cambio de coordenas porque la victima no se mueve
-      battle.getMap().add(victim.getSkin(), y, x);
+
+      // We do not change the position of the victim because the victim does not move
+      battle.getMap().add(victim.getSkin(), currentY, currentX);
       battle.getMessage().setText(playerCurrent + ", tu guerrero ha muerto, juega con estrategia, analiza el poder de tu contrincante");
     } else {
-      // Haremos que escape a donde mejor pueda aleatoriamente
-      scapeRandom(x1, y1);
-      // Como ha escapado, entonces es turno de la otra tropa
+      // We can only create a random escape
+      scapeRandom(currentX, currentY);
       battle.getMessage().setText(playerCurrent + ", tu guerrero ha escapado desesperadamente a donde mejor pudo, se conciente a quien atacas");
+
+      // As the attacker has already escaped, then we make the shift change
       change();
     }
     
     clash = false;
     victim = attacker = null;
-    answer = null;
   }
 
-  private void scapeRandom(int x1, int y1) {
+  private void scapeRandom(int currentX, int currentY) {
     Random random = new Random();
     int x, y;
 
@@ -357,14 +411,19 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       x = random.nextInt(10) + 1; 
       y = random.nextInt(10) + 1; 
  
+      // Check that the target position is not a warrior and the attaker's speed
+      // is sufficient for escape.
       if(searchSkin(x, y) == null && attacker.escapeTo(x, y)) {
         battle.getMap().add(attacker.getSkin(), y, x); 
-        battle.getMap().add(victim.getSkin(), y1, x1);
+        battle.getMap().add(victim.getSkin(), currentY, currentX);
         return;
       }
     }
   }
 
+  /**
+   * @return the temporary HBox that simulates the clash, null if not found
+   */
   private HBox searchClash(int x, int y) {
     for(Node node : battle.getMap().getChildren())
       if(node instanceof HBox && GridPane.getRowIndex(node) == x && GridPane.getColumnIndex(node) == y)
@@ -372,6 +431,10 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
     return null;
   }
 
+  /**
+   * This method clearly must be execute as a daemon
+   * @return true if any troop is out of warriors
+   */
   public boolean gameOver() {
     if(battle.getTroopBlue().isEmpty()) {
       playerCurrent = player2;
