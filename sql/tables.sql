@@ -9,13 +9,11 @@ CREATE TABLE Players (
 
 CREATE TABLE Games (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  player1_id INT,
-  player2_id INT,
-  winner_id INT, 
+  winnerId INT,
+  loserId INT,
   game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (player1_id) REFERENCES Players(id),
-  FOREIGN KEY (player2_id) REFERENCES Players(id),
-  FOREIGN KEY (winner_id) REFERENCES Players(id)
+  FOREIGN KEY (winnerId) REFERENCES Players(id),
+  FOREIGN KEY (loserId) REFERENCES Players(id),
 );
 
 CREATE INDEX idx_name ON Players (name);
