@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Properties;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,22 +71,22 @@ public class ConnectionDB {
   /**
    * This method inserts a new player into the data base.
    * @param name is the name of the player
-   * @param key is the password of the player
+   * @param password is the password of the player
    * @return true if the insertion succeeds
    */
-  public boolean createPlayer( String name, String key ) {
-    if ( getPlayer( name, key ) ) {
-      return false;
-    }
+  public boolean createPlayer( String name, String password ) {
+    String salt = PasswordEncryptor.generateSalt(password);
+    String hashPassword = PasswordEncryptor.getHashPassword(salt);
+    if(hashPassword == null ) return false;
 
-    String query = "INSERT INTO Players ( player_id, player_name ) VALUES ( ?, ? )";
+    String newPlayer = "INSERT INTO Players ( name, password, salt) VALUES ( ?, ?, ? )";
       
-    try( PreparedStatement statement = connection.prepareStatement( query ) ) {
-      statement.setString( 1, key );
-      statement.setString( 2, name );
-      statement.executeUpdate();
+    try( PreparedStatement insertPlayer = connection.prepareStatement( newPlayer ) ) {
+      insertPlayer.setString( 1, name );
+      insertPlayer.setString( 2, hashPassword );
+      insertPlayer.setString( 3, salt );
+      insertPlayer.executeUpdate();
           
-      System.out.println( "Jugador creado exitosamente." );
       return true;
     } catch( SQLException e ) {
       e.printStackTrace();
@@ -96,14 +97,14 @@ public class ConnectionDB {
   /**
    * This method checks the existence of a player.
    * @param name is the name of the player
-   * @param key is the password of the player
+   * @param password is the password of the player
    * @return true if such player exists
    */
-  public boolean getPlayer( String name, String key ) {
-    String query = "SELECT player_id FROM Players WHERE player_id = ? AND player_name = ?";
+  public boolean getPlayer( String name, String password ) {
+    String query = "SELECT password FROM Players WHERE password = ? AND name = ?";
 
-    try(  PreparedStatement statement = connection.prepareStatement( query )  ) {
-      statement.setString( 1, key );
+    try( PreparedStatement statement = connection.prepareStatement( query ) ) {
+      statement.setString( 1, password );
       statement.setString( 2, name );
           
       try ( ResultSet resultSet = statement.executeQuery() ) {
@@ -118,28 +119,31 @@ public class ConnectionDB {
 
   /**
    * This method saves the game and updates the number of games won by the winner
-   * @param winner is the password of the winning player
-   * @param key1 is the password of the player 1
-   * @param key1 is the password of the player 2
+   * @param winnerId is the id of the winning player
+   * @param loserId is the id of the losing player
    */
-  public void saveGame( String winner, String key1, String key2 ) {
-    String saveGame = "INSERT INTO Games ( player1_id, player2_id, winner_id ) VALUES ( ?, ?, ? )";
-    String update = "UPDATE Players SET total_wins = total_wins + 1 WHERE player_id = ?";
+  public boolean saveGame( int winnerId, int loserId ) {
+    String saveGame = "INSERT INTO Games ( winnerId, loserId ) VALUES ( ?, ? )";
+    String updVic = "UPDATE Players SET victories = victories + 1 WHERE id = ?";
+    String updDef = "UPDATE Players SET defeats = defeats + 1 WHERE id = ?";
 
     try( PreparedStatement save = connection.prepareStatement( saveGame );
-        PreparedStatement updateWin = connection.prepareStatement( update )) {
-      save.setString( 1, key1 );
-      save.setString( 2, key2 );
-      save.setString( 3, winner );
+        PreparedStatement updateVic = connection.prepareStatement( updVic );
+        PreparedStatement updateDef = connection.prepareStatement( updDef )) {
+      save.setInt( 1, winnerId );
+      save.setInt( 2, loserId );
       save.executeUpdate();
 
-      updateWin.setString( 1, winner );
-      updateWin.executeUpdate();
+      updateVic.setInt( 1, winnerId );
+      updateVic.executeUpdate();
 
-      System.out.println( "Partida guardada exitosamente." );
+      updateDef.setInt( 1, loserId );
+      updateDef.executeUpdate();
+
+      return true;
     } catch( SQLException e ) {
       e.printStackTrace();
-      System.out.println( "Hubo un error al guardar la partida." );
+      return false;
     }
   }
 }
