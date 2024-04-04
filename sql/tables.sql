@@ -1,5 +1,5 @@
 CREATE TABLE Players (
-  id VARCHAR(255) PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   salt VARCHAR(255) NOT NULL,
@@ -9,9 +9,9 @@ CREATE TABLE Players (
 
 CREATE TABLE Games (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  player1_id VARCHAR(255),
-  player2_id VARCHAR(255),
-  winner_id VARCHAR(255), 
+  player1_id INT,
+  player2_id INT,
+  winner_id INT, 
   game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (player1_id) REFERENCES Players(id),
   FOREIGN KEY (player2_id) REFERENCES Players(id),
