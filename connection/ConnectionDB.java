@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Properties;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 public class ConnectionDB {
   /**
@@ -72,12 +72,12 @@ public class ConnectionDB {
    * This method inserts a new player into the data base.
    * @param name is the name of the player
    * @param password is the password of the player
-   * @return true if the insertion succeeds
+   * @return a state constant to indicate the connection state
    */
-  public boolean createPlayer( String name, String password ) {
-    String salt = PasswordEncryptor.generateSalt(password);
-    String hashPassword = PasswordEncryptor.getHashPassword(salt);
-    if(hashPassword == null ) return false;
+  public StatePlayer createPlayer( String name, String password ) {
+    String salt = PasswordEncryptor.generateSalt();
+    String hashPassword = PasswordEncryptor.getHashPassword(password, salt);
+    if(hashPassword == null ) return StatePlayer.SERVER_ERROR;
 
     String newPlayer = "INSERT INTO Players ( name, password, salt) VALUES ( ?, ?, ? )";
       
@@ -87,10 +87,12 @@ public class ConnectionDB {
       insertPlayer.setString( 3, salt );
       insertPlayer.executeUpdate();
           
-      return true;
+      return StatePlayer.SUCCESS;
+    } catch( SQLIntegrityConstraintViolationException e ) {
+      return StatePlayer.PLAYER_EXISTS;
     } catch( SQLException e ) {
       e.printStackTrace();
-      return false;
+      return StatePlayer.SERVER_ERROR;
     }
   }
 
@@ -98,22 +100,35 @@ public class ConnectionDB {
    * This method checks the existence of a player.
    * @param name is the name of the player
    * @param password is the password of the player
-   * @return true if such player exists
+   * @return a Player object that contains a connection state
    */
-  public boolean getPlayer( String name, String password ) {
-    String query = "SELECT password FROM Players WHERE password = ? AND name = ?";
+  public Player getPlayer( String name, String password ) {
+    String player = "SELECT id, password, salt FROM Players WHERE name = ?";
 
-    try( PreparedStatement statement = connection.prepareStatement( query ) ) {
-      statement.setString( 1, password );
-      statement.setString( 2, name );
+    try( PreparedStatement statement = connection.prepareStatement( player ) ) {
+      statement.setString( 1, name );
           
       try ( ResultSet resultSet = statement.executeQuery() ) {
-        // If the result contains at least one row with the same input date, returns true
-        return resultSet.next();
+        if( resultSet.next() ) {
+          int playerId = resultSet.getInt("id");
+          String storedPassword = resultSet.getString("password");
+          String salt = resultSet.getString("salt");
+
+          // We encrypt the password
+          String hashedPassword = PasswordEncryptor.getHashPassword(password, salt);
+          if(hashedPassword == null)
+            return new Player( StatePlayer.SERVER_ERROR );
+
+          if( hashedPassword.equals(storedPassword) )
+            return new Player( name, playerId, StatePlayer.SUCCESS );
+          else
+            return new Player( StatePlayer.INCORRECT_PASSWORD );
+        } else
+          return new Player( StatePlayer.PLAYER_NO_FOUND );
       }
     } catch ( SQLException e ) {
       e.printStackTrace();
-      return false;
+      return new Player( StatePlayer.SERVER_ERROR );
     }
   }
 
@@ -121,8 +136,9 @@ public class ConnectionDB {
    * This method saves the game and updates the number of games won by the winner
    * @param winnerId is the id of the winning player
    * @param loserId is the id of the losing player
+   * @return a state constant to indicate the connection state
    */
-  public boolean saveGame( int winnerId, int loserId ) {
+  public StatePlayer saveGame( int winnerId, int loserId ) {
     String saveGame = "INSERT INTO Games ( winnerId, loserId ) VALUES ( ?, ? )";
     String updVic = "UPDATE Players SET victories = victories + 1 WHERE id = ?";
     String updDef = "UPDATE Players SET defeats = defeats + 1 WHERE id = ?";
@@ -140,10 +156,10 @@ public class ConnectionDB {
       updateDef.setInt( 1, loserId );
       updateDef.executeUpdate();
 
-      return true;
+      return StatePlayer.SUCCESS;
     } catch( SQLException e ) {
       e.printStackTrace();
-      return false;
+      return StatePlayer.SERVER_ERROR;
     }
   }
 }
