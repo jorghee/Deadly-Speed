@@ -18,7 +18,6 @@ public class Lobby {
   private static Lobby instance;
 
   private Scene mainLobby;
-  private Scene quickLogIn;
 
   public static Lobby getInstance() {
     if(instance == null)
@@ -33,13 +32,13 @@ public class Lobby {
 
     Text title = new Text("Deadly Speed");
 
-    Button quick = new Button("Juego rapido");
+    Button quick = new Button("Quick game");
     quick.setOnAction(e -> quickLogIn(stage));
 
-    Button league = new Button("Liga de campeones");
+    Button league = new Button("Champions League");
     league.setOnAction(e -> League.getInstance().getLeagueLobby(stage));
 
-    Button quit  = new Button("Abandonar Juego");
+    Button quit  = new Button("Exit game");
     quit.setOnAction(e -> stage.close());
 
     // Container of the elements
@@ -66,41 +65,41 @@ public class Lobby {
     grid.setHgap(20);
 
     // Login playerBlue
-    Label troopBlue = new Label("Tropa Azul:");
+    Label troopBlue = new Label("Troop Blue");
     GridPane.setConstraints(troopBlue, 0, 0);
     troopBlue.getStyleClass().add("label");
 
     TextField inputPlayerBlue = new TextField();
-    inputPlayerBlue.setPromptText("Jugador 1");
+    inputPlayerBlue.setPromptText("Player 1");
     GridPane.setConstraints(inputPlayerBlue, 0, 1);
     inputPlayerBlue.getStyleClass().add("text-field");
 
     // Login playerRed
-    Label troopRed = new Label("Tropa Roja:");
+    Label troopRed = new Label("Troop Red:");
     GridPane.setConstraints(troopRed, 1, 0);
     troopRed.getStyleClass().add("label");
 
     TextField inputPlayerRed = new TextField();
-    inputPlayerRed.setPromptText("Jugador 2");
+    inputPlayerRed.setPromptText("Player 2");
     GridPane.setConstraints(inputPlayerRed, 1, 1);
     inputPlayerRed.getStyleClass().add("text-field");
 
-    // Botón de inicio
-    Button start = new Button("Iniciar partida");
+    // Start Button
+    Button start = new Button("Start game");
     GridPane.setConstraints(start, 1, 2);
     start.getStyleClass().add("button");
 
     String playerBlue = inputPlayerBlue.getText();
     String playerRed = inputPlayerRed.getText();
-    start.setOnAction(e -> new Game(playerBlue, playerRed, stage, false));
+    start.setOnAction(e -> new Game(playerBlue, playerRed, stage));
 
-    Button back = new Button("Volver");
+    Button back = new Button("Back");
     GridPane.setConstraints(back, 0, 2);
     back.setOnAction(e -> stage.setScene(mainLobby));
 
     // Adding the elements to the GridPane
     grid.getChildren().addAll(troopBlue, inputPlayerBlue, troopRed, inputPlayerRed, back, start);
-    quickLogIn = new Scene(grid, 1500, 1000);
+    Scene quickLogIn = new Scene(grid, 1500, 1000);
     quickLogIn.getStylesheets().add("/styles/login.css");
     stage.setScene(quickLogIn);
   }

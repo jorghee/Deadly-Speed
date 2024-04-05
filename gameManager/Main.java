@@ -9,7 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-public class Main {
+public class Main extends Application {
   private Stage stage;
 
   public static void main(String[] args) {
@@ -20,9 +20,9 @@ public class Main {
     this.stage = stage;
       
     String file = "/music/cats.mp3";
-    Media sound = new Media(DeadlySpeed.class.getResource(file).toString());
+    Media sound = new Media(Main.class.getResource(file).toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
-    mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(ZERO));
+    mediaPlayer.setOnEndOfMedia(() -> mediaPlayer.seek(Duration.ZERO));
     mediaPlayer.play();
 
     stage.setTitle("Deadly Speed");
