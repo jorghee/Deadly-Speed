@@ -14,7 +14,7 @@
 }
 
 .report {
-  -fx-font-size: 150px;
+  -fx-font-size: 50px;
 }
 
 .root VBox Button {
