@@ -1,0 +1,38 @@
+.root {
+  -fx-background-image: url("/img/background.jpg");
+  -fx-background-size: cover;
+}
+
+.label, .text-field, .button, .text{
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  -fx-text-fill: white;
+}
+
+.text-field {
+  -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
+  -fx-background-color: #7077A1;
+  -fx-border-color: white;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-padding: 10px; 
+  -fx-font-size: 24px;
+}
+
+.button {
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  -fx-font-size: 24px;
+  -fx-background-color: #7077A1;
+  -fx-text-fill: white;
+  -fx-background-radius: 5px;
+}
+
+.button:hover {
+  -fx-background-color: #F6B17A;
+}
+
+.text {
+  -fx-font-size: 20px;
+  -fx-fill: #000000;
+  -fx-font-weight: bold;
+  -fx-font-style: normal;
+}

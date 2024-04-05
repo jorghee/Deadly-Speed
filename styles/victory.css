@@ -1,0 +1,29 @@
+.root {
+  -fx-background-image: url("/img/field-red.png");
+  -fx-background-size: cover;
+}
+
+.root VBox {
+  -fx-spacing: 20px;
+}
+
+.root Text {
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  -fx-font-size: 150px;
+  -fx-fill: lightyellow;
+}
+
+.report {
+  -fx-font-size: 150px;
+}
+
+.root VBox Button {
+  -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  -fx-font-size: 24px;
+  -fx-background-color: #7077A1;
+  -fx-text-fill: white;
+}
+
+.root VBox Button:hover {
+  -fx-background-color: #F6B17A; 
+}
