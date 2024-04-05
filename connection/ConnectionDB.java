@@ -49,6 +49,7 @@ public class ConnectionDB {
       // System.out.println( "Connection class ==> " + connection.getClass().getName() );
       return connection;
     } catch( Exception e ) {
+      // System.out.println("\nError trying to obtain a connection\n");
       e.printStackTrace();
       return null;
     }
@@ -90,7 +91,7 @@ public class ConnectionDB {
       return StatePlayer.SUCCESS;
     } catch( SQLIntegrityConstraintViolationException e ) {
       return StatePlayer.PLAYER_EXISTS;
-    } catch( SQLException e ) {
+    } catch( Exception e ) {
       e.printStackTrace();
       return StatePlayer.SERVER_ERROR;
     }
@@ -108,25 +109,25 @@ public class ConnectionDB {
     try( PreparedStatement statement = connection.prepareStatement( player ) ) {
       statement.setString( 1, name );
           
-      try ( ResultSet resultSet = statement.executeQuery() ) {
-        if( resultSet.next() ) {
-          int playerId = resultSet.getInt("id");
-          String storedPassword = resultSet.getString("password");
-          String salt = resultSet.getString("salt");
-
-          // We encrypt the password
-          String hashedPassword = PasswordEncryptor.getHashPassword(password, salt);
-          if(hashedPassword == null)
-            return new Player( StatePlayer.SERVER_ERROR );
-
-          if( hashedPassword.equals(storedPassword) )
-            return new Player( name, playerId, StatePlayer.SUCCESS );
-          else
-            return new Player( StatePlayer.INCORRECT_PASSWORD );
-        } else
+      try( ResultSet resultSet = statement.executeQuery() ) {
+        if( !resultSet.next() )
           return new Player( StatePlayer.PLAYER_NO_FOUND );
+
+        int playerId = resultSet.getInt("id");
+        String storedPassword = resultSet.getString("password");
+        String salt = resultSet.getString("salt");
+
+        // We encrypt the password
+        String hashedPassword = PasswordEncryptor.getHashPassword(password, salt);
+        if(hashedPassword == null)
+          return new Player( StatePlayer.SERVER_ERROR );
+
+        if( hashedPassword.equals(storedPassword) )
+          return new Player( name, playerId, StatePlayer.SUCCESS );
+        else
+          return new Player( StatePlayer.INCORRECT_PASSWORD );
       }
-    } catch ( SQLException e ) {
+    } catch( Exception e ) {
       e.printStackTrace();
       return new Player( StatePlayer.SERVER_ERROR );
     }
@@ -157,7 +158,7 @@ public class ConnectionDB {
       updateDef.executeUpdate();
 
       return StatePlayer.SUCCESS;
-    } catch( SQLException e ) {
+    } catch( Exception e ) {
       e.printStackTrace();
       return StatePlayer.SERVER_ERROR;
     }

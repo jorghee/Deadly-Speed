@@ -17,6 +17,7 @@ public class PropertiesUtil {
       properties.load(inputStream);
       return properties;
     } catch (Exception e) {
+      // System.out.println("\nError loading the properties file\n");
       e.printStackTrace();
       return null;
     }
