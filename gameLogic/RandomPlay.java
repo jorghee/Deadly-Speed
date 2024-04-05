@@ -98,7 +98,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
    * @param y is the column number of the warrior to be selected
    */
   private void selectWarriorOf(int x, int y) {
-    if (selWarrior != null)
+    if(selWarrior != null)
       selWarrior = null;
 
     // Search the skin on the skins field that stores to the warriors on the GridPane
@@ -142,7 +142,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
    */
   private void moveSelWarriorTo(int x, int y) {
     if(selWarrior == null) {
-      battle.getMessage().setText(playerCurrent + ", no has seleccionado a ningun guerrero");
+      battle.getMessage().setText(playerCurrent + ", no has seleccionado a ninguno de tus guerreros");
       return;
     }
 
@@ -150,24 +150,24 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
 
     // Check the target position
     if(skin != null) {
-      if(!selWarrior.attackTo(x, y)) {
-        battle.getMessage().setText(playerCurrent + ", no tienes suficiente velocidad!");
-        return;
-      }
-
-      battle.getMessage().setText(playerCurrent + ", estas atacando");
-
       // Switch to the victim's troop to initialize the victim field and report the attack.
       change(); 
       victim = TroopFactory.getWarrior(troopCurrent, x, y);
+      change();
 
       if(victim == null) {
-        change();
         battle.getMessage().setText(playerCurrent + ", no puedes atacar a uno de tus guerreros, estas loco/a");
         return;
       }
 
+      if(!selWarrior.attackTo(x, y)) {
+        battle.getMessage().setText(playerCurrent + ", no tienes suficiente velocidad para atacar!");
+        return;
+      }
+
       attacker = selWarrior;
+
+      change();
       battle.getMessage().setText(playerCurrent + ", estas siendo atacado/a" + victim.beAttackedBy(attacker));
 
       // We call this method to define the response of the victim
@@ -224,6 +224,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       battle.getMap().add(attacker.getSkin(), y, x);
 
       setSkins();
+      victim = attacker = null;
       return;
     }
 
@@ -237,6 +238,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       battle.getMessage().setText("Batalla epica, murieron con honor, mis respetos.");
 
       setSkins();
+      victim = attacker = null;
       return;
     }
 
@@ -288,6 +290,14 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       return;
     }
     
+    // Show the information of the victim warrior
+    battle.getNameLabel().setText(victim.getName());
+    battle.getSkinView().setImage(victim.getSkin().getImage());
+    battle.getHpBar().setProgress(victim.getHp() * 1.0 / 12);
+    battle.getSpeedBar().setProgress(victim.getSpeed() * 1.0 / 20);
+    battle.getAttackBar().setProgress(victim.getAttack() * 1.0 / 13);
+    battle.getDefenseBar().setProgress(victim.getDefense()  * 1.0 / 10);
+
     double win = victim.probabilityWinning(attacker);
     int speed = victim.getSpeed();
 
@@ -315,6 +325,11 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
    * @param y is the column number of the victim's response target position
    */
   private void moveSelVictimTo(int x, int y) {
+    if(answer == null) {
+      battle.getMessage().setText(playerCurrent + ", selecciona a tu victima");
+      return;
+    }
+
     int currentX = victim.getPosition()[0];
     int currentY = victim.getPosition()[1];
     HBox oneOnOne = searchClash(x, y);
@@ -324,11 +339,9 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
         escapeNow(currentX, currentY, x, y, oneOnOne); break;
       case Answer.COUNTERATTACK :
         counterattack(currentX, currentY, x, y, oneOnOne); break;
-      case Answer.BOTH :
+      default :
         if(currentX != x && currentY != y) escapeNow(currentX, currentY, x, y, oneOnOne);
         else counterattack(currentX, currentY, x, y, oneOnOne); break;
-      default:
-        battle.getMessage().setText(playerCurrent + ", selecciona a tu victima");
     }
   }
 
@@ -360,7 +373,7 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
       clash = false;
       change();
     } else
-      battle.getMessage().setText(playerCurrent + ", no tienes suficiente velocidad para escapar ahi");
+      battle.getMessage().setText(playerCurrent + ", no tienes suficiente velocidad para escapar a ese lugar");
   }
 
   /** 
