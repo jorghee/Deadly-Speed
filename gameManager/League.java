@@ -82,6 +82,10 @@ public class League {
     GridPane.setConstraints(inputPasswordBlue, 0, 2);
     inputPasswordBlue.getStyleClass().add("text-field");
 
+    Label reportBlue = new Label("");
+    GridPane.setConstraints(reportBlue, 0, 3);
+    reportBlue.getStyleClass().add("label");
+
     // Sign in red player
     Label troopRed = new Label("Troop Red");
     GridPane.setConstraints(troopRed, 1, 0);
@@ -97,13 +101,9 @@ public class League {
     GridPane.setConstraints(inputPasswordRed, 1, 2);
     inputPlayerRed.getStyleClass().add("text-field");
 
-    Text reportBlue = new Text("");
-    GridPane.setConstraints(reportBlue, 0, 3);
-    reportBlue.getStyleClass().add("text");
-
-    Text reportRed = new Text("");
+    Label reportRed = new Label("");
     GridPane.setConstraints(reportRed, 1, 3);
-    reportRed.getStyleClass().add("text");
+    reportRed.getStyleClass().add("label");
 
     // Start button
     Button start = new Button("Start game");
@@ -117,6 +117,9 @@ public class League {
       Player playerRed = ConnectionDB.getInstance().getPlayer(inputPlayerRed.getText(),
                                                               inputPasswordRed.getText());
 
+      if(playerRed.getStatePlayer() == StatePlayer.SUCCESS && playerBlue.getStatePlayer() == StatePlayer.SUCCESS)
+        new Game(playerBlue, playerRed, stage);
+
       switch(playerBlue.getStatePlayer()) {
         case StatePlayer.INCORRECT_PASSWORD :
           reportBlue.setText("Incorrect password"); break;
@@ -128,15 +131,10 @@ public class League {
 
       switch(playerRed.getStatePlayer()) {
         case StatePlayer.INCORRECT_PASSWORD :
-          reportBlue.setText("Incorrect password"); break;
+          reportRed.setText("Incorrect password"); break;
         case StatePlayer.PLAYER_NO_FOUND :
-          reportBlue.setText("Name no found"); break;
-        case StatePlayer.SERVER_ERROR :
-          reportBlue.setText("Error server, try again"); break;
+          reportRed.setText("Name no found"); break;
       }
-
-      if(playerRed.getStatePlayer() == StatePlayer.SUCCESS && playerBlue.getStatePlayer() == StatePlayer.SUCCESS)
-        new Game(playerBlue, playerRed, stage);
 
     });
  
@@ -177,9 +175,9 @@ public class League {
     GridPane.setConstraints(inputPassword, 0, 2);
     inputPassword.getStyleClass().add("text-field");
 
-    Text report = new Text("");
-    GridPane.setConstraints(report, 1, 3);
-    report.getStyleClass().add("text");
+    Label report = new Label("");
+    GridPane.setConstraints(report, 0, 3);
+    report.getStyleClass().add("label");
 
     Button register = new Button("Join league");
     GridPane.setConstraints(register, 0, 4);

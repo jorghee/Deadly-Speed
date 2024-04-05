@@ -89,9 +89,7 @@ public class Lobby {
     GridPane.setConstraints(start, 1, 2);
     start.getStyleClass().add("button");
 
-    String playerBlue = inputPlayerBlue.getText();
-    String playerRed = inputPlayerRed.getText();
-    start.setOnAction(e -> new Game(playerBlue, playerRed, stage));
+    start.setOnAction(e -> new Game(inputPlayerBlue.getText(), inputPlayerRed.getText(), stage));
 
     Button back = new Button("Back");
     GridPane.setConstraints(back, 0, 2);
