@@ -68,7 +68,7 @@ public class Game {
 
     // Tenemos la opcion de jugar otra partida
     Button newGame = new Button("New game");
-    newGame.setOnAction(e -> stage.setScene(Lobby.getInstance().getMainLobby()));
+    newGame.setOnAction(e -> Lobby.getInstance().mainLobby(stage));
 
     // Tambien podemos abandonar el juego
     Button quit = new Button("Exit game");

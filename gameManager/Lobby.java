@@ -101,6 +101,4 @@ public class Lobby {
     quickLogIn.getStylesheets().add("/styles/login.css");
     stage.setScene(quickLogIn);
   }
-
-  public Scene getMainLobby() { return mainLobby; }
 }

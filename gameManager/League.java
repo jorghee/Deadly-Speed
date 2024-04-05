@@ -45,7 +45,7 @@ public class League {
     signUp.setOnAction(e -> leagueSignUp(stage));
 
     Button back = new Button("Back");
-    back.setOnAction(e -> stage.setScene(Lobby.getInstance().getMainLobby()));
+    back.setOnAction(e -> Lobby.getInstance().mainLobby(stage));
 
     // Container of the buttons
     VBox start = new VBox();
