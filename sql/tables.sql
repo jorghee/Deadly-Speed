@@ -13,7 +13,7 @@ CREATE TABLE Games (
   loserId INT,
   game_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (winnerId) REFERENCES Players(id),
-  FOREIGN KEY (loserId) REFERENCES Players(id),
+  FOREIGN KEY (loserId) REFERENCES Players(id)
 );
 
 CREATE INDEX idx_name ON Players (name);
