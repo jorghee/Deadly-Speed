@@ -50,8 +50,7 @@ public class RandomBattle implements Battle<RandomBattle> {
                           new Label("Hp"), hp,
                           new Label("Speed:"), speed, 
                           new Label("Attack"), attack,
-                          new Label("Defense"), defense
-                          );
+                          new Label("Defense"), defense);
     state.getStyleClass().add("state");
 
     assistance.getChildren().addAll(message);
@@ -70,11 +69,9 @@ public class RandomBattle implements Battle<RandomBattle> {
   public RandomBattle createField() {
     map.setHgap(1); map.setVgap(1);
 
-    Rectangle rectangle = new Rectangle(100, 100, Color.rgb(0, 0, 0, 0.5));
-
     for (int x = 0; x < 10; x++)
       for (int y = 0; y < 10; y++)
-        map.add(rectangle, y, x);
+        map.add(new Rectangle(100, 100, Color.rgb(0, 0, 0, 0.5)), y, x);
 
     return this;
   }
