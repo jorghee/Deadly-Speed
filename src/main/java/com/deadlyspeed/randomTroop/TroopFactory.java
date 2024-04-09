@@ -1,7 +1,7 @@
-package randomTroop;
+package com.deadlyspeed.randomTroop;
 
+import com.deadlyspeed.randomTroop.fighter.*;
 import java.util.*;
-import randomTroop.fighter.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 

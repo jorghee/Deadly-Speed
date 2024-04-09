@@ -1,4 +1,4 @@
-package randomTroop.fighter;
+package com.deadlyspeed.randomTroop.fighter;
 
 public class Lord<T> extends Warrior<T> {
   private enum Armament {SWORD, LANCE}

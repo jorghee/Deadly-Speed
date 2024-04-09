@@ -1,6 +1,6 @@
-package gameLogic;
+package com.deadlyspeed.gameLogic;
 
-import field.*;
+import com.deadlyspeed.field.*;
 
 public interface Play<T extends Battle, U> {
   U game(T battle); 

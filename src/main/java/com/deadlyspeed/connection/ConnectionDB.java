@@ -1,12 +1,10 @@
-package connection;
+package com.deadlyspeed.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.Properties;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 public class ConnectionDB {

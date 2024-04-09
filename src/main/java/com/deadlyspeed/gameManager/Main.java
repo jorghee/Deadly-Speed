@@ -1,24 +1,18 @@
-package gameManager;
+package com.deadlyspeed.gameManager;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 public class Main extends Application {
-  private Stage stage;
-
   public static void main(String[] args) {
     launch(args);
   }
 
   public void start(Stage stage) {
-    this.stage = stage;
-      
     String file = "/music/cats.mp3";
     Media sound = new Media(Main.class.getResource(file).toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);

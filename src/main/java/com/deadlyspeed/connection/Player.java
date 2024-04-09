@@ -1,4 +1,4 @@
-package connection;
+package com.deadlyspeed.connection;
 
 public class Player {
   private String name;

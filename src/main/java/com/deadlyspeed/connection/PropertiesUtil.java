@@ -1,7 +1,6 @@
-package connection;
+package com.deadlyspeed.connection;
 
 import java.io.InputStream;
-import java.security.AuthProvider;
 import java.util.Properties;
 
 public class PropertiesUtil {

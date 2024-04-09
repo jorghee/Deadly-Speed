@@ -1,4 +1,4 @@
-package connection;
+package com.deadlyspeed.connection;
 
 import java.security.MessageDigest;
 import java.security.SecureRandom;

@@ -1,4 +1,4 @@
-package gameManager;
+package com.deadlyspeed.gameManager;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,9 +15,9 @@ import javafx.scene.control.PasswordField;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
-import connection.ConnectionDB;
-import connection.Player;
-import connection.StatePlayer;
+import com.deadlyspeed.connection.ConnectionDB;
+import com.deadlyspeed.connection.Player;
+import com.deadlyspeed.connection.StatePlayer;
 
 public class League {
   private static League instance;

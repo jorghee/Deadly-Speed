@@ -1,4 +1,4 @@
-package randomTroop.fighter;
+package com.deadlyspeed.randomTroop.fighter;
 
 import java.util.Random;
 

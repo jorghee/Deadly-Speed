@@ -1,4 +1,4 @@
-package randomTroop.fighter;
+package com.deadlyspeed.randomTroop.fighter;
 
 public class Archer<T> extends Warrior<T> {
   private int nArrow;

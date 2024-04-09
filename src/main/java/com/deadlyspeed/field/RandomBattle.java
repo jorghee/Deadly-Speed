@@ -1,10 +1,9 @@
-package field;
+package com.deadlyspeed.field;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import randomTroop.*;
-import randomTroop.fighter.*;
+import com.deadlyspeed.randomTroop.*;
+import com.deadlyspeed.randomTroop.fighter.*;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;

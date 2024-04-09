@@ -1,9 +1,7 @@
-package gameManager;
+package com.deadlyspeed.gameManager;
 
-import gameLogic.*;
-
-import field.RandomBattle;
-import gameLogic.RandomPlay;
+import com.deadlyspeed.field.RandomBattle;
+import com.deadlyspeed.gameLogic.RandomPlay;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,9 +13,9 @@ import javafx.geometry.Pos;
 
 import javafx.application.Platform;
 
-import connection.ConnectionDB;
-import connection.Player;
-import connection.StatePlayer;
+import com.deadlyspeed.connection.ConnectionDB;
+import com.deadlyspeed.connection.Player;
+import com.deadlyspeed.connection.StatePlayer;
 
 public class Game {
   private Player playerBlue, playerRed;

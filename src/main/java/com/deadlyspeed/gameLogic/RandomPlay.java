@@ -1,8 +1,8 @@
-package gameLogic;
+package com.deadlyspeed.gameLogic;
 
-import randomTroop.TroopFactory;
-import randomTroop.fighter.*;
-import field.*;
+import com.deadlyspeed.randomTroop.TroopFactory;
+import com.deadlyspeed.randomTroop.fighter.*;
+import com.deadlyspeed.field.*;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -11,12 +11,10 @@ import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
-import javafx.collections.ObservableList;
 
 public class RandomPlay implements Play<RandomBattle, Scene> {
   // Game type current
