@@ -13,8 +13,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.control.Button;
 
 public class RandomBattle implements Battle<RandomBattle> {
   // Troops to be engaged
@@ -42,6 +44,7 @@ public class RandomBattle implements Battle<RandomBattle> {
   // Game assistance, it shows messages
   private VBox assistance = new VBox();
   private Label message = new Label();
+  private Button exit = new Button("Exit game");
 
   public RandomBattle() {
     state.getChildren().addAll(
@@ -55,7 +58,10 @@ public class RandomBattle implements Battle<RandomBattle> {
     assistance.getChildren().addAll(message);
     assistance.getStyleClass().add("assistance");
 
-    overview.getChildren().addAll(state, assistance);
+    exit.getStyleClass().add("button");
+
+    overview.getChildren().addAll(state, assistance, exit);
+    overview.setAlignment(Pos.CENTER);
     overview.getStyleClass().add("overview");
 
     container.getChildren().addAll(map, overview);
@@ -124,4 +130,6 @@ public class RandomBattle implements Battle<RandomBattle> {
   public ProgressBar getDefenseBar() { return defense; }
 
   public Label getMessage() { return message; }
+
+  public Button getExit() { return exit; }
 }
