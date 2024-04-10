@@ -2,7 +2,6 @@ package com.deadlyspeed.gameManager;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -10,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
@@ -95,7 +93,7 @@ public class Lobby {
     GridPane.setConstraints(back, 0, 2);
     back.setOnAction(e -> stage.setScene(mainLobby));
 
-    // Adding the elements to the GridPane
+    // We add the elements to the GridPane
     grid.getChildren().addAll(troopBlue, inputPlayerBlue, troopRed, inputPlayerRed, back, start);
     Scene quickLogIn = new Scene(grid, 1500, 1000);
     quickLogIn.getStylesheets().add("/styles/login.css");
