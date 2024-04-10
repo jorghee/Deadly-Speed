@@ -2,20 +2,18 @@ package com.deadlyspeed.gameManager;
 
 import com.deadlyspeed.field.RandomBattle;
 import com.deadlyspeed.gameLogic.RandomPlay;
+import com.deadlyspeed.connection.ConnectionDB;
+import com.deadlyspeed.connection.Player;
+import com.deadlyspeed.connection.StatePlayer;
 
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.geometry.Pos;
-
 import javafx.application.Platform;
-
-import com.deadlyspeed.connection.ConnectionDB;
-import com.deadlyspeed.connection.Player;
-import com.deadlyspeed.connection.StatePlayer;
 
 public class Game {
   private Player playerBlue, playerRed;
@@ -23,7 +21,9 @@ public class Game {
   public Game(String playerBlue, String playerRed, Stage stage) {
     // We create the random game that we have implemented
     RandomPlay randomPlay = new RandomPlay(playerBlue, playerRed);
-    Scene game = randomPlay.game(new RandomBattle());
+    RandomBattle randomBattle = new RandomBattle();
+    Scene game = randomPlay.game(randomBattle);
+    randomBattle.getExit().setOnAction(e -> Lobby.getInstance().mainLobby(stage));
     game.getStylesheets().add("/styles/game.css");
     stage.setScene(game);
 
