@@ -1,8 +1,11 @@
 package com.deadlyspeed.gameManager;
 
+import com.deadlyspeed.connection.ConnectionDB;
+import com.deadlyspeed.connection.Player;
+import com.deadlyspeed.connection.StatePlayer;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -11,13 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
-import com.deadlyspeed.connection.ConnectionDB;
-import com.deadlyspeed.connection.Player;
-import com.deadlyspeed.connection.StatePlayer;
 
 public class League {
   private static League instance;
@@ -117,8 +115,10 @@ public class League {
       Player playerRed = ConnectionDB.getInstance().getPlayer(inputPlayerRed.getText(),
                                                               inputPasswordRed.getText());
 
-      if(playerRed.getStatePlayer() == StatePlayer.SUCCESS && playerBlue.getStatePlayer() == StatePlayer.SUCCESS)
+      if(playerRed.getStatePlayer() == StatePlayer.SUCCESS && playerBlue.getStatePlayer() == StatePlayer.SUCCESS) {
         new Game(playerBlue, playerRed, stage);
+        return;
+      }
 
       switch(playerBlue.getStatePlayer()) {
         case StatePlayer.INCORRECT_PASSWORD :
@@ -201,7 +201,7 @@ public class League {
     back.getStyleClass().add("button");
     back.setOnAction(e -> stage.setScene(leagueLobby));
 
-    // Agregar elementos al grid
+    // We add the elements to the grid
     grid.getChildren().addAll(date, inputName, inputPassword, report, register, back);
     Scene leagueSignUp = new Scene(grid, 1500, 1000);
     leagueSignUp.getStylesheets().add("/styles/login.css");
