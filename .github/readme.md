@@ -1,6 +1,5 @@
-# <samp>Hello!, thank you for watching this little project.</samp> :hot_face:
-
-<b>Deadly Speed</b>
+# <b>Deadly Speed</b>
+## <samp>Hello!, thank you for watching this little project.</samp> :hot_face:
 
 This is a game of confrontation and strategy because when attacking you must also think if you can escape.
 
@@ -12,17 +11,18 @@ So I challenge you to build a new mode with a new game logic. Just make sure you
 
 | <b>Quick Game</b>                                                                                     |
 |-------------------------------------------------------------------------------------------------------|
-| <a href="#--------"><img src="assets/quickgame.gif" width="700px" alt="quick game"></a>               |
+| <a href="#--------"><img src="assets/quickgame.gif" width="750px" alt="quick game"></a>               |
 
 
 | <b>Champions League Game</b>                                                                          |
 |-------------------------------------------------------------------------------------------------------|
-| <a href="#--------"><img src="assets/leaguegame.gif" width="700px" alt="Champions league game"></a>   |
+| <a href="#--------"><img src="assets/leaguegame.gif" width="750px" alt="Champions league game"></a>   |
 
 
 ## :wrench: <samp>Test the game</samp>
 
-:warning: The game is not on the internet but you can try it on your own operating system. With theses setups are will enable the Quick Game.
+The game is not on the internet but you can try it on your own operating system. With theses setups are will enable the Quick Game.
+
 
 <b>1. Install Required Dependencies</b>
 
@@ -35,9 +35,8 @@ Assuming that your OS is Arch Linux :skull:
 sudo pacman -S mariadb maven
 ```
 
-:warning: Install MariaDB if you want to play Champions League. After configuring mariadb, create a database with the following date [`src/main/resources/confidential/database.properties`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/confidential/database.properties)
+:warning: Install MariaDB if you want to play **Champions League**. After configuring mariadb, create a database with the following date [`src/main/resources/confidential/database.properties`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/confidential/database.properties). Finally, create the following tables [`src/main/resources/sql/tables.sql`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/sql/tables.sql)
 
-Finally, create the following tables [`src/main/resources/sql/tables.sql`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/sql/tables.sql)
 
 <b>2. Install Deadly Speed</b>
 
