@@ -3,11 +3,11 @@
   -fx-background-color: transparent;
   -fx-background-image: url("/img/field-red.png");
   -fx-background-size: cover;
-  -fx-spacing: 20;
+  -fx-spacing: 20px;
 }
   
 .overview {
-  -fx-spacing: 20;
+  -fx-spacing: 20px;
 }
 
 .state {

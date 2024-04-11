@@ -64,7 +64,9 @@ public class RandomBattle implements Battle<RandomBattle> {
     overview.setAlignment(Pos.CENTER);
     overview.getStyleClass().add("overview");
 
+    map.setAlignment(Pos.CENTER);
     container.getChildren().addAll(map, overview);
+    container.setAlignment(Pos.CENTER);
   }
 
   /**
