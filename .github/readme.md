@@ -1,5 +1,5 @@
 # <b>Deadly Speed</b>
-<samp>Hello!, thank you for watching this little project</samp> :hot_face:
+### <samp>Hello!, thank you for watching this little project</samp> :hot_face:
 
 This is a game of confrontation and strategy because when attacking you must also think if you can escape.
 
@@ -11,12 +11,12 @@ So I challenge you to build a new mode with a new game logic. Just make sure you
 
 | <b>Quick Game</b>                                                                                     |
 |-------------------------------------------------------------------------------------------------------|
-| <a href="#--------"><img src="assets/quickgame.gif" width="750px" alt="quick game"></a>               |
+| <a href="#--------"><img src="assets/quickgame.gif" width="800px" alt="quick game"></a>               |
 
 
 | <b>Champions League Game</b>                                                                          |
 |-------------------------------------------------------------------------------------------------------|
-| <a href="#--------"><img src="assets/leaguegame.gif" width="750px" alt="Champions league game"></a>   |
+| <a href="#--------"><img src="assets/leaguegame.gif" width="800px" alt="Champions league game"></a>   |
 
 
 ## :wrench: <samp>Test the game</samp>
