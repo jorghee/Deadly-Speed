@@ -1,10 +1,9 @@
-.root {
+.root VBox {
   -fx-background-image: url("/img/background.jpg");
   -fx-background-size: cover;
-}
-
-.root VBox {
+  -fx-background-position: center;
   -fx-spacing: 20px;
+  -fx-alignment: center-right;
 }
 
 .root VBox Text {
