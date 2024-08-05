@@ -19,7 +19,6 @@ import javafx.geometry.Pos;
 
 public class League {
   private static League instance;
-
   private Scene leagueLobby;
   
   public static League getInstance() {
@@ -27,6 +26,10 @@ public class League {
       return new League();
 
     return instance;
+  }
+
+  private League() {
+    instance = this;
   }
 
   public void getLeagueLobby(Stage stage) {
@@ -43,7 +46,7 @@ public class League {
     signUp.setOnAction(e -> leagueSignUp(stage));
 
     Button back = new Button("Back");
-    back.setOnAction(e -> Lobby.getInstance().mainLobby(stage));
+    back.setOnAction(e -> stage.setScene(Lobby.getInstance(stage).getMainLobby()));
 
     // Container of the buttons
     VBox start = new VBox();
