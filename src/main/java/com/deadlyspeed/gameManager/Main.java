@@ -11,8 +11,7 @@ public class Main extends Application {
   public void start(Stage stage) {
     stage.setTitle("Deadly Speed");
 
-    Lobby launch = Lobby.getInstance();
-    launch.mainLobby(stage);
+    Lobby.getInstance(stage);
 
     stage.show();
   }

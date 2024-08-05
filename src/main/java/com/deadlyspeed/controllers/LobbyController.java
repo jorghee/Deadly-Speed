@@ -73,7 +73,7 @@ public class LobbyController {
 
     Button back = new Button("Back");
     GridPane.setConstraints(back, 0, 2);
-    back.setOnAction(e -> stage.setScene(Lobby.getInstance().getMainLobby()));
+    back.setOnAction(e -> stage.setScene(Lobby.getInstance(stage).getMainLobby()));
 
     // We add the elements to the GridPane
     grid.getChildren().addAll(troopBlue, inputPlayerBlue, troopRed, inputPlayerRed, back, start);

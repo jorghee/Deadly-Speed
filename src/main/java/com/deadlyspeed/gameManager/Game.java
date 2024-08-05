@@ -23,7 +23,7 @@ public class Game {
     RandomPlay randomPlay = new RandomPlay(playerBlue, playerRed);
     RandomBattle randomBattle = new RandomBattle();
     Scene game = randomPlay.game(randomBattle);
-    randomBattle.getExit().setOnAction(e -> Lobby.getInstance().mainLobby(stage));
+    randomBattle.getExit().setOnAction(e -> stage.setScene(Lobby.getInstance(stage).getMainLobby()));
     game.getStylesheets().add("/styles/game.css");
     stage.setScene(game);
 
@@ -66,7 +66,7 @@ public class Game {
 
     // Tenemos la opcion de jugar otra partida
     Button newGame = new Button("New game");
-    newGame.setOnAction(e -> Lobby.getInstance().mainLobby(stage));
+    newGame.setOnAction(e -> stage.setScene(Lobby.getInstance(stage).getMainLobby()));
 
     // Tambien podemos abandonar el juego
     Button quit = new Button("Exit game");
