@@ -49,7 +49,7 @@ cd Deadly-Speed
 
 > Use Maven to manager the dependencies
 
-:warning: You must modify the [`pom.xml`](https://github.com/jorghee/Deadly-Speed/blob/main/pom.xml) file to compile the project with the specific or minor version installed on your operating system. 
+:warning: You must modify the [`pom.xml`](https://github.com/jorghee/Deadly-Speed/blob/main/pom.xml) file to compile the project with the specific or minor version of Java installed on your operating system. 
 
 ```xml
 <maven.compiler.source>17</maven.compiler.source>
@@ -61,5 +61,14 @@ The minimun version required to this project is java 17
 ```sh
 mvn javafx:run
 ```
-
-
+Maybe you need you need to set the environment variable `JAVA_HOME` to the path of your JDK installation.
+> Find the path of your JDK installation
+```sh
+readlink -f $(which java) | sed "s:bin/java::"
+```
+The output of the previous command is the path of your JDK installation.
+> Set the environment variable, generally in the `.bashrc` or `.zshrc` file
+```sh
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+source ~/.bashrc
+```
