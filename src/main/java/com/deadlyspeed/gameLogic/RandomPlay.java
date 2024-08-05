@@ -333,9 +333,9 @@ public class RandomPlay implements Play<RandomBattle, Scene> {
     HBox oneOnOne = searchClash(x, y);
 
     switch(answer) {
-      case Answer.ESCAPE :
+      case ESCAPE :
         escapeNow(currentX, currentY, x, y, oneOnOne); break;
-      case Answer.COUNTERATTACK :
+      case COUNTERATTACK :
         counterattack(currentX, currentY, x, y, oneOnOne); break;
       default :
         if(currentX != x && currentY != y) escapeNow(currentX, currentY, x, y, oneOnOne);

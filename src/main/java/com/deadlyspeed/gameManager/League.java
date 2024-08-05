@@ -121,18 +121,18 @@ public class League {
       }
 
       switch(playerBlue.getStatePlayer()) {
-        case StatePlayer.INCORRECT_PASSWORD :
+        case INCORRECT_PASSWORD :
           reportBlue.setText("Incorrect password"); break;
-        case StatePlayer.PLAYER_NO_FOUND :
+        case PLAYER_NO_FOUND :
           reportBlue.setText("Name no found"); break;
-        case StatePlayer.SERVER_ERROR :
+        case SERVER_ERROR :
           reportBlue.setText("Error server, try again"); break;
       }
 
       switch(playerRed.getStatePlayer()) {
-        case StatePlayer.INCORRECT_PASSWORD :
+        case INCORRECT_PASSWORD :
           reportRed.setText("Incorrect password"); break;
-        case StatePlayer.PLAYER_NO_FOUND :
+        case PLAYER_NO_FOUND :
           reportRed.setText("Name no found"); break;
       }
 
@@ -187,9 +187,9 @@ public class League {
       StatePlayer state = ConnectionDB.getInstance().createPlayer(inputName.getText(),
                                                             inputPassword.getText());
       switch(state) {
-        case StatePlayer.SUCCESS :
+        case SUCCESS :
           report.setText("Welcome the league"); break;
-        case StatePlayer.PLAYER_EXISTS :
+        case PLAYER_EXISTS :
           report.setText("The name already exists"); break;
         default :
           report.setText("Error server, try again"); break;
