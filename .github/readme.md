@@ -35,7 +35,7 @@ Assuming that your OS is Arch Linux :skull:
 sudo pacman -S mariadb maven
 ```
 
-:warning: Install MariaDB if you want to play **Champions League**. After configuring mariadb, create a database with the following date [`src/main/resources/confidential/database.properties`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/confidential/database.properties). Finally, create the following tables [`src/main/resources/sql/tables.sql`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/sql/tables.sql)
+:warning: Install MariaDB if you want to play **Champions League**. After configuring mariadb, access your mariadb database with the root user and run the following script [`src/main/resources/sql/setup_database.sql`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/sql/setup_database.sql). Finally, create the following tables into your **fp2_23b** database [`src/main/resources/sql/tables.sql`](https://github.com/jorghee/Deadly-Speed/blob/main/src/main/resources/sql/tables.sql)
 
 <br>
 <b>2. Install Deadly Speed</b>
